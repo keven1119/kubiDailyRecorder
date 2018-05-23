@@ -1,0 +1,190 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.growingio.android'
+
+//apply from: 'tinkerpatch.gradle'
+//apply tinker插件
+apply plugin: 'com.tencent.tinker.patch'
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.keven.kubi"
+        minSdkVersion 21
+        targetSdkVersion TARGET_SDK_VERSION.toInteger()
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        resValue("string", "growingio_project_id", "aae727507b1e067e")
+        resValue("string", "growingio_url_scheme", "growing.48940c98872f7649")
+
+        flavorDimensions "versionCode"
+
+        // dex突破65535限制
+        multiDexEnabled true
+        // 默认打包渠道（官方）
+        manifestPlaceholders = [APP_CHANNEL_VALUE: "官方"]
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 打包渠道List
+    productFlavors {
+        wandoujia {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "豌豆荚"]
+        }
+        cn360 {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "360"]
+        }
+        baidu {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "百度"]
+        }
+        tencent {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "应用宝"]
+        }
+        sougou {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "搜狗市场"]
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile  'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+        }
+
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+
+    }
+
+    //签名信息
+    signingConfigs {
+        debug{
+            // No Debug Config
+        }
+
+        release {
+            storeFile file("/kubikey")
+            storePassword "kobe23kb"
+            keyAlias "kubikey"
+            keyPassword "kobe23kb"
+        }
+    }
+
+
+    buildTypes {
+        //Debug模式
+        debug {
+            // 显示LOG，在java代码中的调用方式为：BuildConfig.LOG_DEBUG，AS工具可以在BuildConfig.java中新增这个字段，如果还要兼容使用eclipse，不建议使用新增字段，因为eclipse在clean后会重新生成BuildConfig.java（默认使用BuildConfig.DEBUG能满足需要就不要特殊处理了）
+            //buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            versionNameSuffix "-debug"
+            // 不开启混淆
+            minifyEnabled false
+            // 不需要ZIP优化
+            zipAlignEnabled false
+            // 不需要资源压缩
+            shrinkResources false
+            // signingConfig
+            signingConfig signingConfigs.debug
+        }
+
+        //Release模式
+        release {
+            // 不显示LOG
+            //buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            minifyEnabled true
+            zipAlignEnabled true
+            // 资源压缩，移除无用的资源文件
+            shrinkResources true
+            // 混淆文件配置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 签名信息配置（如果上面配置了defaultConfig则可以不用指定signingConfig）
+            signingConfig signingConfigs.release
+
+
+        }
+    }
+
+}
+
+// 声明一个方法，获取打包时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //水波纹生成器
+    compile 'com.github.keven1119:RippleCreator:0.6'
+
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
+
+    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
+
+    compile 'com.growingio.android:vds-android-agent:2.3.0@aar'
+
+    //greendao
+    compile'org.greenrobot:greendao:3.0.1'
+    compile'org.greenrobot:greendao-generator:3.0.0'
+
+
+    compile "com.github.keven1119.AptNotice:noticefinder:${APTNOTICE_VERSION}"
+    compile "com.github.keven1119.AptNotice:noticefinder-annotation:${APTNOTICE_VERSION}"
+    compile "com.github.keven1119.AptNotice:noticefinder-impl:${APTNOTICE_VERSION}"
+    annotationProcessor "com.github.keven1119.AptNotice:noticefinder-compiler:${APTNOTICE_VERSION}"
+
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.3.2'
+
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+
+    //MPAndroidChart, 图标控件
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    // https://mvnrepository.com/artifact/org.clojars.cbilson/pinyin4j
+    compile group: 'org.clojars.cbilson', name: 'pinyin4j', version: '2.5.0'
+
+
+    provided("com.tinkerpatch.tinker:tinker-android-anno:1.9.6")
+    compile("com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.6")
+
+//可选，用于生成application类
+    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
+
+    //tinker的核心库
+    compile('com.tencent.tinker:tinker-android-lib:1.9.1')
+}
+
+greendao {
+    schemaVersion 7
+    daoPackage 'com.keven.kubi.db.greendao'
+    targetGenDir 'src/main/java'
+}
+
+

@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">KubiDailyRecorder</string>
+
+    <string name="previous_week_sale_amount">上周销量:%1$s</string>
+    <string name="production_price">价格:%1$s</string>
+    <string name="production_type">种类:%1$s</string>
+    <string name="input_amount">输入销售量</string>
+    <string name="previous_hour_scale_amount">销量:%1$s</string>
+    <string name="input_amount_sure">确定</string>
+    <string name="input_amount_cancel">取消</string>
+    <string name="food_delete">删除</string>
+    <string name="set_food_mgs">请完善新品信息</string>
+    <string name="food_add_fail">添加失败</string>
+    <string name="food_add_success">添加成功</string>
+    <string name="sure_add_food">确认添加</string>
+    <string name="delete_newfood_tips">确认删除</string>
+    <string name="to_see_statis">查看数据</string>
+    <string name="add_new_food">产品种类添加</string>
+    <string name="write_hour_statis">填写时产品数量</string>
+    <string name="update_food_msg">修改产品信息</string>
+    <string name="login_in">登录</string>
+    <string name="login_out">登出</string>
+    <string name="login_int_fail_tips">登录信息错误，请检查</string>
+    <string name="sure_to_update_food">修改</string>
+    <string name="production_unit">个</string>
+    <string name="fill_production_count">填写产品数量：</string>
+    <string name="current_production_count">当前产品数量</string>
+    <string name="more_production_count">补充产品数量</string>
+    <string name="add_product_count">添加产品数量</string>
+    <string name="add_product_form">产量添加表</string>
+    <string name="click_to_fill">点击填写</string>
+    <string name="click_to_add_product">日产量添加</string>
+    <string name="today_product">今日产量:</string>
+    <string name="no_product_tips">没产品新增\r\n可以不填写</string>
+    <string name="no_production_count_today">今天还没有输入过产品产量\r\n请马上登记</string>
+    <string name="current_count_more">当前产品数量大于今天生成量\r\n请马上检查</string>
+    <string name="chart_zoom">放大</string>
+    <string name="chart_shrink">缩小</string>
+    <string name="chart_search">搜索</string>
+    <string name="residue_add">点击补充</string>
+    <string name="production_day_statis">产品日销售数据</string>
+    <string name="production_hour_statis">产品时销售数据</string>
+    <string name="choose_production_statis">选择产品数据</string>
+    <string name="choose_statis_type">选择数据类型</string>
+</resources>
